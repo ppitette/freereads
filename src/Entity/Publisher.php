@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Trait\IdNameTrait;
 use App\Repository\PublisherRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: PublisherRepository::class)]
 class Publisher
 {
-    use IdNameTrait;
+    use Trait\IdNameTrait;
 
     #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'publishers')]
     private Collection $books;
@@ -19,6 +18,11 @@ class Publisher
     public function __construct()
     {
         $this->books = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 
     /**
