@@ -40,6 +40,11 @@ class UserBook
         return $this->id;
     }
 
+    public function __toString()
+    {
+        return $this->getBooks()->getTitle();
+    }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;

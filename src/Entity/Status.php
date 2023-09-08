@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Trait\IdNameTrait;
 use App\Repository\StatusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: StatusRepository::class)]
 class Status
 {
-    use IdNameTrait;
+    use Trait\IdNameTrait;
 
     #[ORM\OneToMany(mappedBy: 'status', targetEntity: UserBook::class)]
     private Collection $userBooks;
@@ -19,6 +18,11 @@ class Status
     public function __construct()
     {
         $this->userBooks = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 
     /**
