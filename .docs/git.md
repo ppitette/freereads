@@ -17,7 +17,6 @@ git checkout nom_de_la_branche
 
 ```zsh
 git checkout main && git pull
-git checkout xxxxx
 ```
 
 ## Fin
