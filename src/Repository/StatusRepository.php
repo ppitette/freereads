@@ -21,6 +21,24 @@ class StatusRepository extends ServiceEntityRepository
         parent::__construct($registry, Status::class);
     }
 
+    public function save(Status $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(Status $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     //    /**
     //     * @return Status[] Returns an array of Status objects
     //     */

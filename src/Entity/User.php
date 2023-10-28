@@ -43,11 +43,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userBooks = new ArrayCollection();
     }
 
-    public function __toString(): string
-    {
-        return $this->pseudo ?? $this->email;
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -58,7 +53,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
@@ -87,7 +82,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): static
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -102,7 +97,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
@@ -123,7 +118,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->pseudo;
     }
 
-    public function setPseudo(?string $pseudo): static
+    public function setPseudo(?string $pseudo): self
     {
         $this->pseudo = $pseudo;
 
@@ -138,7 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->userBooks;
     }
 
-    public function addUserBook(UserBook $userBook): static
+    public function addUserBook(UserBook $userBook): self
     {
         if (!$this->userBooks->contains($userBook)) {
             $this->userBooks->add($userBook);
@@ -148,7 +143,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeUserBook(UserBook $userBook): static
+    public function removeUserBook(UserBook $userBook): self
     {
         if ($this->userBooks->removeElement($userBook)) {
             // set the owning side to null (unless already changed)
@@ -158,5 +153,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->pseudo ?? $this->email;
     }
 }

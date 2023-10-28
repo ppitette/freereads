@@ -18,7 +18,7 @@ class AppFixtures extends Fixture
     {
         $faker = Faker::create('fr_FR');
 
-        // Création de 10 auteurs
+        // Create of 10 Authors
         $authors = [];
 
         for ($i = 0; $i < 10; ++$i) {
@@ -28,9 +28,8 @@ class AppFixtures extends Fixture
             $authors[] = $author;
         }
 
-        // Création de 10 éditeurs
+        // Create 10 Publishers
         $publishers = [];
-
         for ($i = 0; $i < 10; ++$i) {
             $publisher = new Publisher();
             $publisher->setName($faker->company);
@@ -38,19 +37,17 @@ class AppFixtures extends Fixture
             $publishers[] = $publisher;
         }
 
-        // Créations des Status
+        // Create Status
         $status = [];
-
-        foreach (['A lire', 'En cours', 'Lu'] as $value) {
+        foreach (['to-read', 'reading', 'read'] as $value) {
             $oneStatus = new Status();
             $oneStatus->setName($value);
             $manager->persist($oneStatus);
             $status[] = $oneStatus;
         }
 
-        // Creation de 100 livres
+        // Create 100 Books
         $books = [];
-
         for ($i = 0; $i < 100; ++$i) {
             $book = new Book();
 
@@ -61,7 +58,7 @@ class AppFixtures extends Fixture
             $isbn13 = $faker->isbn13;
 
             $book
-                ->setGoogleBooksId($faker->uuid())
+                ->setGoogleBooksId($faker->uuid)
                 ->setTitle($faker->sentence)
                 ->setSubtitle($faker->sentence)
                 ->setPublishDate($faker->dateTime)
@@ -72,29 +69,26 @@ class AppFixtures extends Fixture
                 ->setThumbnail('https://picsum.photos/200/300')
                 ->setSmallThumbnail('https://picsum.photos/100/150')
                 ->addAuthor($faker->randomElement($authors))
-                ->addPublisher($faker->randomElement($publishers))
-            ;
+                ->addPublisher($faker->randomElement($publishers));
             $manager->persist($book);
 
             $books[] = $book;
         }
 
-        // Creation de 10 utilisateurs
+        // Create 10 Users
         $users = [];
-
         for ($i = 0; $i < 10; ++$i) {
             $user = new User();
             $user
                 ->setEmail($faker->email)
                 ->setPassword($faker->password)
-                ->setPseudo($faker->userName)
-            ;
+                ->setPseudo($faker->userName);
             $manager->persist($user);
 
             $users[] = $user;
         }
 
-        // Creation 10 userBook par User
+        // Create 10 UserBook by User
         foreach ($users as $user) {
             for ($i = 0; $i < 10; ++$i) {
                 $userBook = new UserBook();
@@ -103,10 +97,10 @@ class AppFixtures extends Fixture
                     ->setStatus($faker->randomElement($status))
                     ->setRating($faker->numberBetween(0, 5))
                     ->setComment($faker->text)
-                    ->setBooks($faker->randomElement($books))
+                    ->setBook($faker->randomElement($books))
                     ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime))
-                    ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime))
-                ;
+                    ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime));
+
                 $manager->persist($userBook);
             }
         }

@@ -26,7 +26,6 @@ class CreateAdminService
 
             $password = $this->passwordHasher->hashPassword($user, $password);
             $user->setPassword($password);
-            $user->setRoles(['ROLE_ADMIN']);
         }
 
         $user->setRoles(['ROLE_ADMIN']);

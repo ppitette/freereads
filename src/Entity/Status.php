@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\IdNameTrait;
 use App\Repository\StatusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: StatusRepository::class)]
 class Status
 {
-    use Trait\IdNameTrait;
+    use IdNameTrait;
 
     #[ORM\OneToMany(mappedBy: 'status', targetEntity: UserBook::class)]
     private Collection $userBooks;
@@ -18,11 +19,6 @@ class Status
     public function __construct()
     {
         $this->userBooks = new ArrayCollection();
-    }
-
-    public function __toString(): string
-    {
-        return $this->getName();
     }
 
     /**
@@ -33,7 +29,7 @@ class Status
         return $this->userBooks;
     }
 
-    public function addUserBook(UserBook $userBook): static
+    public function addUserBook(UserBook $userBook): self
     {
         if (!$this->userBooks->contains($userBook)) {
             $this->userBooks->add($userBook);
@@ -43,7 +39,7 @@ class Status
         return $this;
     }
 
-    public function removeUserBook(UserBook $userBook): static
+    public function removeUserBook(UserBook $userBook): self
     {
         if ($this->userBooks->removeElement($userBook)) {
             // set the owning side to null (unless already changed)
@@ -53,5 +49,10 @@ class Status
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }
