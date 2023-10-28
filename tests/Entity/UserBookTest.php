@@ -36,8 +36,8 @@ class UserBookTest extends TestCase
         $this->assertSame($reader, $userBook->getReader());
 
         $book = new Book();
-        $userBook->setBooks($book);
-        $this->assertSame($book, $userBook->getBooks());
+        $userBook->setBook($book);
+        $this->assertSame($book, $userBook->getBook());
 
         $status = new Status();
         $userBook->setStatus($status);

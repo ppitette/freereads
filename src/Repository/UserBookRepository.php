@@ -21,6 +21,24 @@ class UserBookRepository extends ServiceEntityRepository
         parent::__construct($registry, UserBook::class);
     }
 
+    public function save(UserBook $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(UserBook $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     //    /**
     //     * @return UserBook[] Returns an array of UserBook objects
     //     */

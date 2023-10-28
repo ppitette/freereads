@@ -27,7 +27,7 @@ class BookCrudController extends AbstractCrudController
             TextField::new('description'),
             TextField::new('isbn10'),
             TextField::new('isbn13'),
-            ImageField::new('smallthumbnail'),
+            ImageField::new('smallThumbnail'),
             ImageField::new('thumbnail'),
             CollectionField::new('authors'),
             CollectionField::new('publishers'),

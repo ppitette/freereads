@@ -40,10 +40,10 @@ class Book
     #[ORM\Column(nullable: true)]
     private ?int $pageCount = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $smallThumbnail = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $thumbnail = null;
 
     #[ORM\ManyToMany(targetEntity: Author::class, inversedBy: 'books')]
@@ -52,7 +52,7 @@ class Book
     #[ORM\ManyToMany(targetEntity: Publisher::class, inversedBy: 'books')]
     private Collection $publishers;
 
-    #[ORM\OneToMany(mappedBy: 'books', targetEntity: UserBook::class)]
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: UserBook::class)]
     private Collection $userBooks;
 
     public function __construct()
@@ -60,11 +60,6 @@ class Book
         $this->authors = new ArrayCollection();
         $this->publishers = new ArrayCollection();
         $this->userBooks = new ArrayCollection();
-    }
-
-    public function __toString(): string
-    {
-        return $this->title;
     }
 
     public function getId(): ?int
@@ -77,7 +72,7 @@ class Book
         return $this->googleBooksId;
     }
 
-    public function setGoogleBooksId(string $googleBooksId): static
+    public function setGoogleBooksId(string $googleBooksId): self
     {
         $this->googleBooksId = $googleBooksId;
 
@@ -89,7 +84,7 @@ class Book
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -101,7 +96,7 @@ class Book
         return $this->subtitle;
     }
 
-    public function setSubtitle(?string $subtitle): static
+    public function setSubtitle(?string $subtitle): self
     {
         $this->subtitle = $subtitle;
 
@@ -113,7 +108,7 @@ class Book
         return $this->publishDate;
     }
 
-    public function setPublishDate(?\DateTimeInterface $publishDate): static
+    public function setPublishDate(?\DateTimeInterface $publishDate): self
     {
         $this->publishDate = $publishDate;
 
@@ -125,7 +120,7 @@ class Book
         return $this->description;
     }
 
-    public function setDescription(?string $description): static
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -137,7 +132,7 @@ class Book
         return $this->isbn10;
     }
 
-    public function setIsbn10(?string $isbn10): static
+    public function setIsbn10(?string $isbn10): self
     {
         $this->isbn10 = $isbn10;
 
@@ -149,7 +144,7 @@ class Book
         return $this->isbn13;
     }
 
-    public function setIsbn13(?string $isbn13): static
+    public function setIsbn13(?string $isbn13): self
     {
         $this->isbn13 = $isbn13;
 
@@ -161,7 +156,7 @@ class Book
         return $this->pageCount;
     }
 
-    public function setPageCount(?int $pageCount): static
+    public function setPageCount(?int $pageCount): self
     {
         $this->pageCount = $pageCount;
 
@@ -173,7 +168,7 @@ class Book
         return $this->smallThumbnail;
     }
 
-    public function setSmallThumbnail(?string $smallThumbnail): static
+    public function setSmallThumbnail(?string $smallThumbnail): self
     {
         $this->smallThumbnail = $smallThumbnail;
 
@@ -185,7 +180,7 @@ class Book
         return $this->thumbnail;
     }
 
-    public function setThumbnail(?string $thumbnail): static
+    public function setThumbnail(?string $thumbnail): self
     {
         $this->thumbnail = $thumbnail;
 
@@ -200,7 +195,7 @@ class Book
         return $this->authors;
     }
 
-    public function addAuthor(Author $author): static
+    public function addAuthor(Author $author): self
     {
         if (!$this->authors->contains($author)) {
             $this->authors->add($author);
@@ -209,7 +204,7 @@ class Book
         return $this;
     }
 
-    public function removeAuthor(Author $author): static
+    public function removeAuthor(Author $author): self
     {
         $this->authors->removeElement($author);
 
@@ -224,7 +219,7 @@ class Book
         return $this->publishers;
     }
 
-    public function addPublisher(Publisher $publisher): static
+    public function addPublisher(Publisher $publisher): self
     {
         if (!$this->publishers->contains($publisher)) {
             $this->publishers->add($publisher);
@@ -233,7 +228,7 @@ class Book
         return $this;
     }
 
-    public function removePublisher(Publisher $publisher): static
+    public function removePublisher(Publisher $publisher): self
     {
         $this->publishers->removeElement($publisher);
 
@@ -248,25 +243,30 @@ class Book
         return $this->userBooks;
     }
 
-    public function addUserBook(UserBook $userBook): static
+    public function addUserBook(UserBook $userBook): self
     {
         if (!$this->userBooks->contains($userBook)) {
             $this->userBooks->add($userBook);
-            $userBook->setBooks($this);
+            $userBook->setBook($this);
         }
 
         return $this;
     }
 
-    public function removeUserBook(UserBook $userBook): static
+    public function removeUserBook(UserBook $userBook): self
     {
         if ($this->userBooks->removeElement($userBook)) {
             // set the owning side to null (unless already changed)
-            if ($userBook->getBooks() === $this) {
-                $userBook->setBooks(null);
+            if ($userBook->getBook() === $this) {
+                $userBook->setBook(null);
             }
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->title;
     }
 }

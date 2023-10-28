@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\IdNameTrait;
 use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
 class Author
 {
-    use Trait\IdNameTrait;
+    use IdNameTrait;
 
     #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'authors')]
     private Collection $books;
@@ -18,11 +19,6 @@ class Author
     public function __construct()
     {
         $this->books = new ArrayCollection();
-    }
-
-    public function __toString(): string
-    {
-        return $this->getName();
     }
 
     /**
@@ -33,7 +29,7 @@ class Author
         return $this->books;
     }
 
-    public function addBook(Book $book): static
+    public function addBook(Book $book): self
     {
         if (!$this->books->contains($book)) {
             $this->books->add($book);
@@ -43,12 +39,17 @@ class Author
         return $this;
     }
 
-    public function removeBook(Book $book): static
+    public function removeBook(Book $book): self
     {
         if ($this->books->removeElement($book)) {
             $book->removeAuthor($this);
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }

@@ -12,8 +12,7 @@ trait ReadOnlyTrait
     {
         $actions
             ->disable(Action::NEW, Action::EDIT, Action::DELETE)
-            ->add(Crud::PAGE_INDEX, Action::DETAIL)
-        ;
+            ->add(Crud::PAGE_INDEX, Action::DETAIL);
 
         return $actions;
     }

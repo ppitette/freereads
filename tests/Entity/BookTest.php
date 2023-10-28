@@ -102,14 +102,14 @@ class BookTest extends TestCase
 
         $book->addUserBook($userBook1);
         $this->assertTrue($book->getUserBooks()->contains($userBook1));
-        $this->assertSame($book, $userBook1->getBooks());
+        $this->assertSame($book, $userBook1->getBook());
 
         $book->addUserBook($userBook2);
         $this->assertTrue($book->getUserBooks()->contains($userBook2));
-        $this->assertSame($book, $userBook2->getBooks());
+        $this->assertSame($book, $userBook2->getBook());
 
         $book->removeUserBook($userBook1);
         $this->assertFalse($book->getUserBooks()->contains($userBook1));
-        $this->assertNull($userBook1->getBooks());
+        $this->assertNull($userBook1->getBook());
     }
 }

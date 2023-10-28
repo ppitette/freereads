@@ -30,7 +30,7 @@ class UserBook
     private ?User $reader = null;
 
     #[ORM\ManyToOne(inversedBy: 'userBooks')]
-    private ?Book $books = null;
+    private ?Book $book = null;
 
     #[ORM\ManyToOne(inversedBy: 'userBooks')]
     private ?Status $status = null;
@@ -40,17 +40,12 @@ class UserBook
         return $this->id;
     }
 
-    public function __toString()
-    {
-        return $this->getBooks()->getTitle();
-    }
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -62,7 +57,7 @@ class UserBook
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -74,7 +69,7 @@ class UserBook
         return $this->comment;
     }
 
-    public function setComment(?string $comment): static
+    public function setComment(?string $comment): self
     {
         $this->comment = $comment;
 
@@ -86,7 +81,7 @@ class UserBook
         return $this->rating;
     }
 
-    public function setRating(?int $rating): static
+    public function setRating(?int $rating): self
     {
         $this->rating = $rating;
 
@@ -98,21 +93,21 @@ class UserBook
         return $this->reader;
     }
 
-    public function setReader(?User $reader): static
+    public function setReader(?User $reader): self
     {
         $this->reader = $reader;
 
         return $this;
     }
 
-    public function getBooks(): ?Book
+    public function getBook(): ?Book
     {
-        return $this->books;
+        return $this->book;
     }
 
-    public function setBooks(?Book $books): static
+    public function setBook(?Book $book): self
     {
-        $this->books = $books;
+        $this->book = $book;
 
         return $this;
     }
@@ -122,10 +117,15 @@ class UserBook
         return $this->status;
     }
 
-    public function setStatus(?Status $status): static
+    public function setStatus(?Status $status): self
     {
         $this->status = $status;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getBook()->getTitle();
     }
 }

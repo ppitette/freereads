@@ -24,7 +24,7 @@ trait IdNameTrait
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
 

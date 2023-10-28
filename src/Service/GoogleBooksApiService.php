@@ -13,6 +13,11 @@ class GoogleBooksApiService
     ) {
     }
 
+    public function get(string $id): array
+    {
+        return $this->makeRequest('GET', 'volumes/'.$id);
+    }
+
     public function search(string $search): array
     {
         if (strlen($search) < 3) {

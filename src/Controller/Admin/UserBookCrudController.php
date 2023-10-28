@@ -23,7 +23,7 @@ class UserBookCrudController extends AbstractCrudController
         return [
             IdField::new('id'),
             TextField::new('reader'),
-            TextField::new('books'),
+            TextField::new('book'),
             TextareaField::new('comment'),
             IntegerField::new('rating'),
             TextField::new('status'),

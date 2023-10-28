@@ -14,18 +14,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class InvitationController extends AbstractController
 {
-    public function __construct(
-        private readonly UserPasswordHasherInterface $userPasswordHasher,
-        private readonly EntityManagerInterface $entityManager
-    ) {
-    }
-
     #[Route('/invitation/{uuid}', name: 'app_invitation')]
-    public function index(Invitation $invitation, Request $request): Response
-    {
+    public function index(
+        Invitation $invitation, Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager
+    ): Response {
         if (null !== $invitation->getReader()) {
             throw new \Exception('Cette invitation a déjà été utilisée.');
-            // return $this->redirectToRoute('admin');
         }
 
         $user = new User();
@@ -37,7 +33,7 @@ class InvitationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
-                $this->userPasswordHasher->hashPassword(
+                $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
@@ -45,14 +41,14 @@ class InvitationController extends AbstractController
 
             $invitation->setReader($user);
 
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+            $entityManager->persist($user);
+            $entityManager->flush();
             // do anything else you need here, like send an email
 
             return $this->redirectToRoute('admin');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('invitation/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }

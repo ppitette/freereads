@@ -12,8 +12,7 @@ trait CreateReadDeleteTrait
     {
         $actions
             ->disable(Action::EDIT)
-            ->add(Crud::PAGE_INDEX, Action::DETAIL)
-        ;
+            ->add(Crud::PAGE_INDEX, Action::DETAIL);
 
         return $actions;
     }
